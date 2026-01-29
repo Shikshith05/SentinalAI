@@ -15,9 +15,22 @@ A real-time conflict detection and analysis web application for identifying esca
 - Detected conflict indicators and AI suggestions
 - Multi-user demo personas (Alice, Bob, Manager)
 
-## Setup
+## Quick Start (Single Command)
 
-## Running on Another Laptop
+To run the entire project with one command:
+
+```bash
+cd /path/to/SentinalAI
+./run.sh
+```
+
+This will:
+- Clean up ports 3000 and 8000
+- Start the FastAPI backend on port 8000
+- Start the Next.js frontend on port 3000
+- Display both URLs and log file locations
+
+## Setup
 
 ### Prerequisites
 
@@ -25,75 +38,55 @@ A real-time conflict detection and analysis web application for identifying esca
 - **Python 3.10+** (recommended)
 - **Node.js 18+** and **npm**
 
-### 1. Clone the Repository
+### Initial Setup
 
+1. **Clone the Repository**
+   ```bash
+   git clone <YOUR_REPO_URL>
+   cd SentinalAI
+   ```
+
+2. **Create & Activate a Python Virtual Environment**
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   ```
+
+3. **Install Backend Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Install Frontend Dependencies**
+   ```bash
+   cd frontend
+   npm install
+   cd ..
+   ```
+
+### Running the Project
+
+#### Option 1: Single Command (Recommended)
 ```bash
-git clone <YOUR_REPO_URL>
-cd SentinalAI
+./run.sh
 ```
 
-### 2. Create & Activate a Python Virtual Environment
+#### Option 2: Manual (Two Terminals)
 
+Terminal 1 - Backend:
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+python -m uvicorn app:app --reload --port 8000
 ```
 
-### 3. Install Backend Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Install Frontend Dependencies
-
-```bash
-cd frontend
-npm install
-```
-
-### 5. Run the Backend
-
-```bash
-cd ..
-uvicorn app:app --reload --port 8000
-```
-
-### 6. Run the Frontend (New Terminal)
-
+Terminal 2 - Frontend:
 ```bash
 cd frontend
 npm run dev
 ```
 
-The frontend runs at `http://localhost:3000` and connects to the API at `http://localhost:8000`.
-
-### 1. Install Backend Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 2. Run the Backend
-
-```bash
-uvicorn app:app --reload --port 8000
-```
-
-### 3. Install Frontend Dependencies
-
-```bash
-cd frontend
-npm install
-```
-
-### 4. Run the Frontend
-
-```bash
-npm run dev
-```
-
-The frontend runs at `http://localhost:3000` and connects to the API at `http://localhost:8000`.
+**Access the application:**
+- Frontend: http://localhost:3000
+- Backend API: http://127.0.0.1:8000
 
 ## API Endpoints
 
