@@ -153,6 +153,44 @@ export default function Home() {
     return { high, medium, low, total: messages.length };
   }, [messages]);
 
+  const verifyAnalysis = async () => {
+    if (!input.trim()) {
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    const cacheKey = input.trim();
+    const cached = analysisCache.current.get(cacheKey);
+
+    if (cached) {
+      setAnalysis(cached);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/analyze`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: input })
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to analyze message");
+      }
+
+      const data = await res.json();
+      analysisCache.current.set(cacheKey, data);
+      setAnalysis(data);
+    } catch (err) {
+      setError("Unable to analyze message.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const sendMessage = async () => {
     if (!input.trim() || !currentUser) {
       return;
@@ -402,9 +440,21 @@ export default function Home() {
               <input
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !loading && currentUser) {
+                    sendMessage();
+                  }
+                }}
                 placeholder="Type your message here..."
                 className="flex-1 rounded-full border border-slate-700/60 bg-slate-950/70 px-4 py-2 text-sm text-slate-200"
               />
+              <button
+                onClick={verifyAnalysis}
+                disabled={loading || !input.trim()}
+                className="rounded-full bg-purple-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Verify
+              </button>
               <button
                 onClick={sendMessage}
                 disabled={loading || !currentUser}
