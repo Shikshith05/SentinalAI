@@ -1,4 +1,4 @@
-# 🛡️ SentinalAI - Conflict Detection System
+# 🛡️ SentinelAI - Conflict Detection System
 
 A real-time conflict detection and analysis web application for identifying escalating tensions in conversations.
 
